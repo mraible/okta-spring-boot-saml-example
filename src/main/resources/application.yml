@@ -4,7 +4,7 @@ spring:
       relyingparty:
         registration:
           okta:
-            identityprovider:
+            assertingparty:
               entity-id: http://www.okta.com/exk5yj9ve0Ete2emm5d7
               verification.credentials:
                 - certificate-location: "classpath:okta.cert"
