@@ -17,7 +17,16 @@ public class HomeController {
     @RequestMapping("/hello")
     public String hello(@AuthenticationPrincipal Saml2AuthenticatedPrincipal principal, Model model) {
         model.addAttribute("name", principal.getName());
+        model.addAttribute("emailAddress", principal.getFirstAttribute("email"));
+        model.addAttribute("userAttributes", principal.getAttributes());
         return "hello";
+    }
+
+    public String index(Model model, @AuthenticationPrincipal Saml2AuthenticatedPrincipal principal) {
+        String emailAddress = principal.getFirstAttribute("email");
+        model.addAttribute("emailAddress", emailAddress);
+        model.addAttribute("userAttributes", principal.getAttributes());
+        return "index";
     }
 
 }
