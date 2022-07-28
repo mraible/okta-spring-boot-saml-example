@@ -6,15 +6,10 @@ spring:
           okta:
             signing:
               credentials:
-                - private-key-location: "classpath:local.key"
-                  certificate-location: "classpath:local.crt"
+                - private-key-location: classpath:local.key
+                  certificate-location: classpath:local.crt
+            singlelogout:
+              binding: POST
+              response-url: "{baseUrl}/logout/saml2/slo"
             assertingparty:
-              entity-id: http://www.okta.com/exk5yj9ve0Ete2emm5d7
-              verification.credentials:
-                - certificate-location: "classpath:okta.cert"
-              singlesignon.url: https://dev-17700857.okta.com/app/dev-17700857_springbootsaml_1/exk5yj9ve0Ete2emm5d7/sso/saml
-              singlesignon.sign-request: true
-              singlelogout.url: "http://localhost:8080/logout/saml2/slo"
-
-logging.level:
-  org.springframework.security: TRACE
+              metadata-uri: https://dev-17700857.okta.com/app/exk5yj9ve0Ete2emm5d7/sso/saml/metadata
