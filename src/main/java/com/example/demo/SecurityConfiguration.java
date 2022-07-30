@@ -22,24 +22,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfiguration {
 
-    private Converter<OpenSaml4AuthenticationProvider.ResponseToken, Saml2Authentication> groupsConverter() {
-
-        Converter<ResponseToken, Saml2Authentication> delegate =
-            OpenSaml4AuthenticationProvider.createDefaultResponseAuthenticationConverter();
-
-        return (responseToken) -> {
-            Saml2Authentication authentication = delegate.convert(responseToken);
-            Saml2AuthenticatedPrincipal principal = (Saml2AuthenticatedPrincipal) authentication.getPrincipal();
-            List<String> groups = principal.getAttribute("groups");
-            Set<GrantedAuthority> authorities = new HashSet<>();
-            authorities.addAll(authentication.getAuthorities());
-            if (groups != null) {
-                groups.stream().map(SimpleGrantedAuthority::new).forEach(authorities::add);
-            }
-            return new Saml2Authentication(principal, authentication.getSaml2Response(), authorities);
-        };
-    }
-
     @Bean
     SecurityFilterChain app(HttpSecurity http) throws Exception {
 
@@ -58,5 +40,24 @@ public class SecurityConfiguration {
         // @formatter:on
 
         return http.build();
+    }
+
+    private Converter<OpenSaml4AuthenticationProvider.ResponseToken, Saml2Authentication> groupsConverter() {
+
+        Converter<ResponseToken, Saml2Authentication> delegate =
+            OpenSaml4AuthenticationProvider.createDefaultResponseAuthenticationConverter();
+
+        return (responseToken) -> {
+            Saml2Authentication authentication = delegate.convert(responseToken);
+            Saml2AuthenticatedPrincipal principal = (Saml2AuthenticatedPrincipal) authentication.getPrincipal();
+            List<String> groups = principal.getAttribute("groups");
+            Set<GrantedAuthority> authorities = new HashSet<>();
+            if (groups != null) {
+                groups.stream().map(SimpleGrantedAuthority::new).forEach(authorities::add);
+            } else {
+                authorities.addAll(authentication.getAuthorities());
+            }
+            return new Saml2Authentication(principal, authentication.getSaml2Response(), authorities);
+        };
     }
 }
