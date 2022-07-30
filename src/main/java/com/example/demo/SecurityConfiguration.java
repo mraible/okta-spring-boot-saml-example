@@ -23,7 +23,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
 
     @Bean
-    SecurityFilterChain app(HttpSecurity http) throws Exception {
+    SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         OpenSaml4AuthenticationProvider authenticationProvider = new OpenSaml4AuthenticationProvider();
         authenticationProvider.setResponseAuthenticationConverter(groupsConverter());
