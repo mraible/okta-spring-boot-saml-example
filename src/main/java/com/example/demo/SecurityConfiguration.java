@@ -31,7 +31,7 @@ public class SecurityConfiguration {
         // @formatter:off
         http
             .authorizeHttpRequests(authorize -> authorize
-                .antMatchers("/").permitAll().anyRequest().authenticated()
+                .anyRequest().authenticated()
             )
             .saml2Login(saml2 -> saml2
                 .authenticationManager(new ProviderManager(authenticationProvider))

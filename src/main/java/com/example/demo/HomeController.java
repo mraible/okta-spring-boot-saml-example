@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
-
-    @RequestMapping("/home")
     public String home(@AuthenticationPrincipal Saml2AuthenticatedPrincipal principal, Model model) {
         model.addAttribute("name", principal.getName());
         model.addAttribute("emailAddress", principal.getFirstAttribute("email"));

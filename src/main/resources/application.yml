@@ -13,6 +13,3 @@ spring:
               response-url: "{baseUrl}/logout/saml2/slo"
             assertingparty:
               metadata-uri: https://dev-17700857.okta.com/app/exk5yj9ve0Ete2emm5d7/sso/saml/metadata
-              sign-request: false
-            identityprovider:
-              singlesignon.sign-request: false
